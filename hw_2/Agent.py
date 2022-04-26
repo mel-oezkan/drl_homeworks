@@ -54,6 +54,6 @@ class Agent:
             base_pos[1],
             base_action
         ] += self.learning_rate * td_estimate
-
+      
         world.world = base_state
         return base_action
