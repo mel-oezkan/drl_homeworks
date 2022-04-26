@@ -6,7 +6,7 @@ GAMMA = 0.95
 
 if __name__ == '__main__':
     world = GridWorld()
-    state = world.make(10, 10)
+    world.make(10, 10)
 
     agent = Agent(10, 10, 4)
 
@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
         # take action
         print('Action: ', action)
-        state, reward, end = world.step(action)
+        _, reward, end = world.step(action)
 
         ep_count += 1
         total_reward += reward
