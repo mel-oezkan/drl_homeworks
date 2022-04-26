@@ -7,7 +7,7 @@ possible values:
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 
 class GridWorld:
@@ -66,9 +66,9 @@ class GridWorld:
         elif action == 1: # down
             self.pos = (min(curr_y + 1, self.height-1), curr_x)
         elif action == 2: #'right'
-            self.pos = (curr_y, max(curr_x+1, self.width-1))
+            self.pos = (curr_y, min(curr_x + 1, self.width-1))
         elif action == 3: # 'left'
-            self.pos = (curr_y, min(curr_x-1, 0))
+            self.pos = (curr_y, max(curr_x - 1, 0))
 
         # get the reward
         reward = self.world[self.pos[0], self.pos[1]]

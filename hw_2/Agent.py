@@ -15,7 +15,7 @@ class Agent:
         (height, width) = pos
         possible_actions = self.q_table[height, width, :]
 
-        print(possible_actions)
+        #print(possible_actions)
 
         next_action = np.argmax(possible_actions)
         return next_action
@@ -34,9 +34,12 @@ class Agent:
 
             # delta = r + GAMMA Q(s', a') - Q(s,a)
             td_estimate += (gamma ** step) * reward
-
+          
             if step == 0:
                 base_action = new_action
+
+            if end:
+                break
 
         # add q-table estimate
         last_action = self.choose_action(world.pos)

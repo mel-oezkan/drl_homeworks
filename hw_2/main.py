@@ -1,7 +1,7 @@
 from Agent import Agent
 from Gridworld import GridWorld
 
-EPISODE_STEPS = 1_000
+EPISODE_STEPS = 100
 GAMMA = 0.95
 
 if __name__ == '__main__':
@@ -14,26 +14,22 @@ if __name__ == '__main__':
     total_reward = 0
     for eps in range(EPISODE_STEPS):
 
-        if eps % 10 == 0:
-            world.visualize()
+        if True: #eps % 10 == 0:
+            #world.visualize()
             print("Current episode: ", eps)
 
-        # generate action
-        base_action = None
-        base_state = None
-        td_estimate = 0
 
         # convert into agent function
-        action = agent.n_sarsa(world, 4, GAMMA)
+        action = agent.n_sarsa(world, 2, GAMMA)
 
         # take action
-        print(action)
+        print('Action: ', action)
         state, reward, end = world.step(action)
 
         ep_count += 1
         total_reward += reward
 
-        if reward:
+        if end:
             print(f"Agent finished in {ep_count} steps.")
             print(f"Total reward: {total_reward}.")
             break
