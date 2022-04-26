@@ -61,13 +61,13 @@ class GridWorld:
 
         curr_y, curr_x = self.pos
 
-        if action == 'up':
+        if action == 0: # up
             self.pos = (max(curr_y - 1, 0), curr_x)
-        elif action == 'down':
+        elif action == 1: # down
             self.pos = (min(curr_y + 1, self.height-1), curr_x)
-        elif action == 'right':
+        elif action == 2: #'right'
             self.pos = (curr_y, max(curr_x+1, self.width-1))
-        elif action == 'left':
+        elif action == 3: # 'left'
             self.pos = (curr_y, min(curr_x-1, 0))
 
         # get the reward

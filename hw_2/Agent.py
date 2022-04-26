@@ -4,12 +4,6 @@ import numpy as np
 class Agent:
     def __init__(self, width, height, n_actions, learning_rate=0.1):
         self.q_table = np.random.rand(width, height, n_actions)
-        self.actions = {
-            0: 'up',
-            1: 'down',
-            2: 'left',
-            3: "right"
-        }
         self.learning_rate = learning_rate
 
     def choose_action(self, pos):
@@ -24,7 +18,7 @@ class Agent:
         print(possible_actions)
 
         next_action = np.argmax(possible_actions)
-        return self.actions[next_action]
+        return next_action
 
     def n_sarsa(self, world, n_steps, gamma):
 
