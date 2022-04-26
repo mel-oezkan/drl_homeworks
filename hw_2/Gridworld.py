@@ -50,7 +50,7 @@ class GridWorld:
 
 
     def reset(self):
-        self.world = self.base_world
+        self.make()
 
     def step(self, action: tuple):
         """
@@ -67,15 +67,21 @@ class GridWorld:
         curr_y, curr_x = self.pos
         new_y, new_x = curr_y + action[0], curr_x + action[1]
 
+        # check if action is within bound
+        # else return current pos and 0 reward
+        bound_y = 0 =< new_y >= (self.height -1)
+        bound_x = 0 =< new_x >= (self.width -1)
+      
+        if not bound_x or not bound_x:
+          return self.pos, 0, False
+      
         if (self.world[new_y, new_x] == np.nan):
             return self.pos, 0, False
 
-        # check the boundaries
-        self.pos = (
-            min(max(0, new_y), self.height),
-            min(max(0, new_x), self.width),
-        )
-
+        # update pos
+        self.pos = (new_y, new_x)
+        
+      # get the reward
         reward = self.world[self.pos[0], self.pos[1]]
         return self.pos, reward, reward > 0
 
