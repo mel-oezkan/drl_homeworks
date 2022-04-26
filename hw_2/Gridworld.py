@@ -68,8 +68,8 @@ class GridWorld:
 
         # check if action is within bound
         # else return current pos and 0 reward
-        bound_y = 0 =< new_y >= (self.height -1)
-        bound_x = 0 =< new_x >= (self.width -1)
+        bound_y = 0 =< new_y and new_y >= (self.height -1)
+        bound_x = 0 =< new_x and new_x >= (self.width -1)
       
         if not bound_x or not bound_x:
           return self.pos, 0, False
@@ -80,7 +80,7 @@ class GridWorld:
         # update pos
         self.pos = (new_y, new_x)
         
-      # get the reward
+        # get the reward
         reward = self.world[self.pos[0], self.pos[1]]
         return self.pos, reward, reward > 0
 
