@@ -24,7 +24,6 @@ class Agent:
 
         # remember pos and first action
         base_pos = world.pos
-        base_state = world.world
 
         td_estimate = 0
         for step in range(n_steps):
@@ -55,5 +54,5 @@ class Agent:
             base_action
         ] += self.learning_rate * td_estimate
       
-        world.world = base_state
+        world.pos = base_pos
         return base_action
