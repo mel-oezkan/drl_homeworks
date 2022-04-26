@@ -60,12 +60,11 @@ class GridWorld:
         """
 
         curr_y, curr_x = self.pos
-        #new_y, new_x = curr_y + action[0], curr_x + action[1]
 
         if action == 'up':
-            self.pos = (max(curr_x - 1, 0), curr_x)
+            self.pos = (max(curr_y - 1, 0), curr_x)
         elif action == 'down':
-            self.pos = (min(curr_x + 1, self.height-1), curr_x)
+            self.pos = (min(curr_y + 1, self.height-1), curr_x)
         elif action == 'right':
             self.pos = (curr_y, max(curr_x+1, self.width-1))
         elif action == 'left':
