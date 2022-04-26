@@ -5,10 +5,10 @@ class Agent:
     def __init__(self, width, height, n_actions, learning_rate=0.1):
         self.q_table = np.random.rand(width, height, n_actions)
         self.actions = {
-            0: (0, 1),
-            1: (0, -1),
-            2: (1, 0),
-            3: (-1, 0)
+            0: 'up',
+            1: 'down',
+            2: 'left',
+            3: "right"
         }
         self.learning_rate = learning_rate
 
@@ -22,7 +22,7 @@ class Agent:
         possible_actions = self.q_table[height, width, :]
 
         print(possible_actions)
-        
+
         next_action = np.argmax(possible_actions)
         return self.actions[next_action]
 
