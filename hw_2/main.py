@@ -14,7 +14,8 @@ if __name__ == '__main__':
     total_reward = 0
     for eps in range(EPISODE_STEPS):
 
-        if eps % 10:
+        if eps % 10 == 0:
+            world.visualize()
             print("Current episode: ", eps)
 
         # generate action
@@ -26,6 +27,7 @@ if __name__ == '__main__':
         action = agent.n_sarsa(world, 4, GAMMA)
 
         # take action
+        print(action)
         state, reward, end = world.step(action)
 
         ep_count += 1
@@ -34,5 +36,4 @@ if __name__ == '__main__':
         if reward:
             print(f"Agent finished in {ep_count} steps.")
             print(f"Total reward: {total_reward}.")
-
             break

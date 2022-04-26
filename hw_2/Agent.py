@@ -21,6 +21,8 @@ class Agent:
         (height, width) = pos
         possible_actions = self.q_table[height, width, :]
 
+        print(possible_actions)
+        
         next_action = np.argmax(possible_actions)
         return self.actions[next_action]
 
@@ -28,18 +30,18 @@ class Agent:
 
         # remember pos and first action
         base_pos = world.pos
+        base_state = world.world
 
-        q_sum = 0
+        td_estimate = 0
         for step in range(n_steps):
 
             new_action = self.choose_action(world.pos)
-            state, reward, end = world.step(new_action)
+            _, reward, end = world.step(new_action)
 
             # delta = r + GAMMA Q(s', a') - Q(s,a)
             td_estimate += (gamma ** step) * reward
 
             if step == 0:
-                base_state = state
                 base_action = new_action
 
         # add q-table estimate
@@ -56,5 +58,5 @@ class Agent:
             base_action
         ] += self.learning_rate * td_estimate
 
-        world.world = base_pos
+        world.world = base_state
         return base_action
