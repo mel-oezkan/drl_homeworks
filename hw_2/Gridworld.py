@@ -60,18 +60,29 @@ class GridWorld:
         """
 
         curr_y, curr_x = self.pos
-
+      
         if action == 0: # up
-            self.pos = (max(curr_y - 1, 0), curr_x)
+            new_pos = curr_y - 1, curr_x
         elif action == 1: # down
-            self.pos = (min(curr_y + 1, self.height-1), curr_x)
+            new_pos = curr_y + 1, curr_x
         elif action == 2: #'right'
-            self.pos = (curr_y, min(curr_x + 1, self.width-1))
+            new_pos = curr_y, curr_x + 1
         elif action == 3: # 'left'
-            self.pos = (curr_y, max(curr_x - 1, 0))
+            new_pos = curr_y, curr_x - 1
+        
+        # check if in bounds 
+        bound_x = new_pos[0] >= 0 and new_pos[0] <= (self.width -1)
+        bound_y = new_pos[1] >= 0 and new_pos[1] <= (self.height -1)
+        if not(bound_x or bound_y):
+          return self.pos, 0, False
 
+        # check if field is blocked
+        if self.world[new_pos[0], new_pos[1]] == np.nan:
+          return self.pos, 0, False
+          
         # get the reward
-        reward = self.world[self.pos[0], self.pos[1]]
+        reward = self.world[new_pos[0], new_pos[1]]
+        self.pos = new_pos
         return self.pos, reward, reward > 0
 
     def visualize(self):
@@ -91,5 +102,4 @@ class GridWorld:
         canvas[self.pos[0], self.pos[1]] = 5
 
         plt.imshow(canvas), plt.axis('off')
-        plt.legend()
         plt.show()
