@@ -20,6 +20,10 @@ class Agent:
         next_action = np.argmax(possible_actions)
         return next_action
 
+
+    def update_q(self, last_pos, base_pos, td_est):
+        td_estimate -= self.q_table[base_pos[0], base_pos[1], base_action]
+
     def n_sarsa(self, world, n_steps, gamma):
 
         # remember pos and first action

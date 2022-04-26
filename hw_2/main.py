@@ -15,7 +15,7 @@ if __name__ == '__main__':
     for eps in range(EPISODE_STEPS):
 
         if True: #eps % 10 == 0:
-            world.visualize()
+            #world.visualize()
             print("Current episode: ", eps)
 
 
