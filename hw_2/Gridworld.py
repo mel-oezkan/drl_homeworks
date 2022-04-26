@@ -60,7 +60,7 @@ class GridWorld:
         """
 
         curr_y, curr_x = self.pos
-        new_y, new_x = curr_y + action[0], curr_x + action[1]
+        #new_y, new_x = curr_y + action[0], curr_x + action[1]
 
         if action == 'up':
             self.pos = (max(curr_x - 1, 0), curr_x)
