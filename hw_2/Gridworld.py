@@ -9,8 +9,8 @@ possible values:
 import numpy as np
 import matplotlib.pyplot as plt
 
-class GridWorld:
 
+class GridWorld:
 
     @staticmethod
     def random_pos(width, height):
@@ -26,9 +26,9 @@ class GridWorld:
         # Create thr world
         self.world = np.zeros((self.height, self.width))
         self.pos = GridWorld.random_pos(self.height, self.width)
-                
+
         neg_prob = np.random.randint(0, 4) / 10
-        neg_count = int(width * height * neg_prob) 
+        neg_count = int(width * height * neg_prob)
 
         # neg rewards
         for _ in range(neg_count):
@@ -47,7 +47,6 @@ class GridWorld:
         # remember base world for reset
         self.base_world = self.world
         self.start_pos = self.pos
-
 
     def reset(self):
         self.world = self.base_world
@@ -79,9 +78,8 @@ class GridWorld:
         reward = self.world[self.pos[0], self.pos[1]]
         return self.pos, reward, reward > 0
 
-
     def visualize(self):
-        
+
         canvas = np.zeros_like(self.world)
         pos_mask = self.world > 0
         neg_mask = self.world < 0
@@ -98,4 +96,4 @@ class GridWorld:
 
         plt.imshow(canvas), plt.axis('off')
         plt.legend()
-        plt.show()        
+        plt.show()
