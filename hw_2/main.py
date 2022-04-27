@@ -19,7 +19,6 @@ if __name__ == '__main__':
     ax = fig.add_subplot(111)
     img = ax.imshow(world.visualize())
     for eps in range(EPISODE_STEPS):
-        input("Press for next step")
         if True: #eps % 10 == 0:
             canvas = world.visualize()
             img.set_data(canvas)
@@ -27,7 +26,7 @@ if __name__ == '__main__':
             fig.canvas.flush_events()
             print("Current episode: ", eps)
 
-
+        input("Press for next step")
         # convert into agent function
         action = agent.n_sarsa(world, 5, GAMMA)
 
