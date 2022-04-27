@@ -7,7 +7,7 @@ possible values:
 """
 
 import numpy as np
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 class GridWorld:
@@ -73,7 +73,7 @@ class GridWorld:
         # check if in bounds 
         bound_x = new_pos[0] >= 0 and new_pos[0] <= (self.width -1)
         bound_y = new_pos[1] >= 0 and new_pos[1] <= (self.height -1)
-        if not(bound_x or bound_y):
+        if not (bound_x and bound_y):
           return self.pos, 0, False
 
         # check if field is blocked
@@ -100,6 +100,6 @@ class GridWorld:
         canvas[neutral_mask] = 4
 
         canvas[self.pos[0], self.pos[1]] = 5
-
-        plt.imshow(canvas), plt.axis('off')
-        plt.show()
+        return canvas
+        #plt.imshow(canvas, label="kljhokjhkjh"), plt.axis('off')
+        #plt.show()
