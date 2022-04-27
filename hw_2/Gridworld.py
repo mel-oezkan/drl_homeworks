@@ -7,51 +7,42 @@ possible values:
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class GridWorld:
+    def __init__(self, width, height, proportion_negative=0.4):
+        self.width = width
+        self.height = height
+        # intialize world
+        self.create_world(proportion_negative)
 
-    @staticmethod
-    def random_pos(width, height):
+
+    def random_pos(self):
         return (
-            np.random.randint(0, height),
-            np.random.randint(0, width)
+            np.random.randint(0, self.height),
+            np.random.randint(0, self.width)
         )
 
-    def make(self, width, height):
-        self.height = height
-        self.width = width
 
-        # Create thr world
+    def create_world(self, proportion_negative):
+        # intialize world
         self.world = np.zeros((self.height, self.width))
-        self.pos = GridWorld.random_pos(self.height, self.width)
+        # add goal spot (positive reward)
+        self.world[self.random_pos()] = 10
+        # add walkable spots (negative reward)
+        while np.sum(self.world < 0) < np.floor(proportion_negative * self.world.size):
+            rpos = self.random_pos()
+            if self.world[rpos] == 0:
+                self.world[rpos] = -1
+        # add unaccessible spots (nan)
+        self.world[self.world == 0] = np.nan
 
-        neg_prob = np.random.randint(0, 4) / 10
-        neg_count = int(width * height * neg_prob)
-
-        # neg rewards
-        for _ in range(neg_count):
-            pos_y, pos_x = GridWorld.random_pos(width, height)
-            self.world[pos_y, pos_x] = np.random.randint(10) * (-1)
-
-        # blocked states
-        for _ in range(np.random.randint(3, 6)):
-            pos_y, pos_x = GridWorld.random_pos(width, height)
-            self.world[pos_y, pos_x] = np.nan
-
-        # infal state
-        rew_pos = GridWorld.random_pos(width, height)
-        self.world[rew_pos] = 10
-
-        # remember base world for reset
-        self.base_world = self.world
-        self.start_pos = self.pos
 
     def reset(self):
         self.make()
 
-    def step(self, action: tuple):
+
+    def step(self, pos: tuple, action: tuple):
         """
         Accepts 4 different values
         - up, down, right, left
@@ -59,7 +50,7 @@ class GridWorld:
         Returns the respective reward and new state
         """
 
-        curr_y, curr_x = self.pos
+        curr_y, curr_x = pos
       
         if action == 0: # up
             new_pos = curr_y - 1, curr_x
@@ -74,19 +65,18 @@ class GridWorld:
         bound_x = new_pos[0] >= 0 and new_pos[0] <= (self.width -1)
         bound_y = new_pos[1] >= 0 and new_pos[1] <= (self.height -1)
         if not (bound_x and bound_y):
-          return self.pos, 0, False
+          return pos, 0, False
 
         # check if field is blocked
-        if self.world[new_pos[0], new_pos[1]] == np.nan:
-          return self.pos, 0, False
+        if np.isnan(self.world[new_pos]):
+            return pos, 0, False
           
         # get the reward
-        reward = self.world[new_pos[0], new_pos[1]]
-        self.pos = new_pos
-        return self.pos, reward, reward > 0
+        reward = self.world[new_pos]
+        return new_pos, reward, reward > 0
 
-    def visualize(self):
 
+    def visualize(self, pos):
         canvas = np.zeros_like(self.world)
         pos_mask = self.world > 0
         neg_mask = self.world < 0
@@ -99,7 +89,5 @@ class GridWorld:
         canvas[block_mask] = 3
         canvas[neutral_mask] = 4
 
-        canvas[self.pos[0], self.pos[1]] = 5
+        canvas[pos] = 5
         return canvas
-        #plt.imshow(canvas, label="kljhokjhkjh"), plt.axis('off')
-        #plt.show()
