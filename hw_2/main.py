@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import time
 import numpy as np
 
-HEIGHT, WIDTH = 4,4
+HEIGHT, WIDTH = 6, 6
 EPISODES = 100
 MAX_STEPS = 15
 GAMMA = 0.99
@@ -25,16 +25,15 @@ if __name__ == '__main__':
         # intilize starting position
         while True:
             pos = world.random_pos()
-            print(world.world, pos)
-            print("AAAAAA", world.world[pos], not np.isnan(world.world[pos]))
             if not np.isnan(world.world[pos]) and world.world[pos] < 0:
                 break
         step = 0
+
         # for all steps of the episode
         while True:
             print("Step:", step)
             # calculate td-estimate and get next action
-            action = agent.n_sarsa(pos, 6, GAMMA)
+            action = agent.n_sarsa(pos, 2, GAMMA)
             # take action
             pos, reward, terminal = world.step(pos, action)
             # increment counter
