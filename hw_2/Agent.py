@@ -27,7 +27,7 @@ class Agent:
             base_pos[0],
             base_pos[1],
             base_action
-        ] += self.learning_rate * td_est
+        ] += self.learning_rate * (td_est - self.q_table[base_pos[0], base_pos[1], base_action])
 
 
     def n_sarsa(self, pos, n_steps, gamma):
@@ -52,8 +52,7 @@ class Agent:
         else:
             last_action = self.choose_action(pos)
             # add q-table estimate to td_estimate
-            td_estimate += self.q_table[pos[0], pos[1], last_action]
-            td_estimate -= self.q_table[pos[0], pos[1], base_action]
+            td_estimate += (gamma ** (step + 1)) * self.q_table[pos[0], pos[1], last_action]
             self.update_q(base_pos, base_action, td_estimate)
 
         return base_action

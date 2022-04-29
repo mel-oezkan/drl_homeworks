@@ -65,11 +65,11 @@ class GridWorld:
         bound_x = new_pos[0] >= 0 and new_pos[0] <= (self.width -1)
         bound_y = new_pos[1] >= 0 and new_pos[1] <= (self.height -1)
         if not (bound_x and bound_y):
-          return pos, -np.inf, False
+          return pos, self.world[pos], False
 
         # check if field is blocked
         if np.isnan(self.world[new_pos]):
-            return pos, -np.inf, False
+            return pos, self.world[pos], False
           
         # get the reward
         reward = self.world[new_pos]
