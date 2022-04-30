@@ -38,7 +38,7 @@ class Agent:
             new_action = self.choose_action(pos)
             pos, reward, terminated = self.world.step(pos, new_action)
 
-            # delta = r + GAMMA Q(s', a') - Q(s,a)
+            # add the total reward of n steps
             td_estimate += (gamma ** step) * reward
           
             if step == 0:
