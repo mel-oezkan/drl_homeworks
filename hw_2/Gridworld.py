@@ -61,9 +61,9 @@ class GridWorld:
             start_pos = self.random_pos()
             if not np.isnan(self.world[start_pos]):
                 break
-        print(start_pos)
-        input()
-        fill4(*start_pos, world_copy)
+        #print(start_pos)
+        #input()
+        #fill4(*start_pos, world_copy)
         if 100000< np.count_nonzero(np.isnan(self.world) == 0):
             return False
         return True
