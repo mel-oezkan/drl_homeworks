@@ -13,11 +13,8 @@ class Agent:
         :param pos: 2d 
         :type pos: nd.array
         """
-        (height, width) = pos
-        possible_actions = self.q_table[height, width, :]
-
-        #print(possible_actions)
-
+        y_pos, x_pos = pos
+        possible_actions = self.q_table[y_pos, x_pos, :]
         next_action = np.argmax(possible_actions)
         return next_action
 
