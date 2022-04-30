@@ -75,7 +75,7 @@ class GridWorld:
 
     def legal_pos(self, pos: tuple, world=None):
         """Check if a position is not out of bounds or a blocked state."""
-        if world is not None: world = self.world
+        if world is None: world = self.world
         # check if in bounds 
         bound_x = pos[1] >= 0 and pos[1] <= (self.width -1)
         bound_y = pos[0] >= 0 and pos[0] <= (self.height -1)
