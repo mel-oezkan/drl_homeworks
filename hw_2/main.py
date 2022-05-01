@@ -15,7 +15,7 @@ N_SARSA_STEPS = 4
 if __name__ == '__main__':
     print("Always press [ENTER] to proceed.")
     # intialize world
-    world = GridWorld(WIDTH, HEIGHT, proportion_negative=0.8)
+    world = GridWorld(WIDTH, HEIGHT, proportion_negative=0.6)
     # intialize agend
     agent = Agent(world, 4)
     # intilize fixed starting position
@@ -48,7 +48,7 @@ if __name__ == '__main__':
                     time.sleep(1.5)
                 break
 
-            world.check_world_legal()
+            #world.check_world_legal()
             input("Next Step")
             # increment counter
             step += 1

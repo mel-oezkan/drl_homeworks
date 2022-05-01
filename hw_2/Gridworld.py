@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 
 class GridWorld:
-    def __init__(self, width, height, proportion_negative=0.4, undeterministic=True):
+    def __init__(self, width, height, proportion_negative=0.3, undeterministic=True):
         self.width = width
         self.height = height
         # intialize world
@@ -46,31 +46,34 @@ class GridWorld:
     
 
     def check_world_legal(self):
+        """Apply flood fill to check if all the walkaboe spots are connected"""
         world_copy = np.copy(self.world)
-        #self.c = 0
-        def fill4(x, y, world_copy):
-            if self.legal_pos((y, x), world=world_copy):
-                world_copy[y, x] = np.nan
-                fill4(x, y + 1, world_copy)  # unten
-                fill4(x, y - 1, world_copy)  # oben
-                fill4(x + 1, y, world_copy)  # rechts
-                fill4(x - 1, y, world_copy)  # links
-                #self.c += 1
-        
         while True:
             start_pos = self.random_pos()
             if not np.isnan(self.world[start_pos]):
                 break
-        #print(start_pos)
-        #input()
-        #fill4(*start_pos, world_copy)
-        if 100000< np.count_nonzero(np.isnan(self.world) == 0):
+        # floodfill counts the number of accessible spots
+        self.c = 0
+        self.fill4(*start_pos, world_copy)
+        if self.c < np.count_nonzero(np.isnan(self.world) == 0):
             return False
         return True
 
 
     def reset(self):
-        self.make()
+        """Create new World."""
+        self.create_world()
+    
+
+    def fill4(self, x, y, world_copy):
+        """Recursive floodfill algorithm, for every accessbile spot, add 1 to counter"""
+        if self.legal_pos((y, x), world=world_copy):
+            world_copy[y, x] = np.nan
+            self.fill4(x, y + 1, world_copy)  # unten
+            self.fill4(x, y - 1, world_copy)  # oben
+            self.fill4(x + 1, y, world_copy)  # rechts
+            self.fill4(x - 1, y, world_copy)  # links
+            self.c += 1
 
 
     def legal_pos(self, pos: tuple, world=None):
@@ -121,6 +124,7 @@ class GridWorld:
 
 
     def create_canvas(self, pos):
+        """Create canvas matrix for visualisation."""
         canvas = np.zeros_like(self.world)
         pos_mask = self.world > 0
         neg_mask = self.world < 0
@@ -137,6 +141,7 @@ class GridWorld:
     
 
     def init_visualisation(self, pos, agent):
+        """Initialize plot and vector arrows simbolizing smallest to biggest q-values."""
         self.agent = agent
         plt.ion()
         self.fig = plt.figure()
@@ -156,6 +161,7 @@ class GridWorld:
     
     
     def visualization_step(self, pos):
+        """Update step for plot."""
         canvas = self.create_canvas(pos)
         self.img.set_data(canvas)
         q_table_sort = np.argsort(np.argsort(self.agent.q_table))
