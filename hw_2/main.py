@@ -13,6 +13,10 @@ N_SARSA_STEPS = 4
 
 
 if __name__ == '__main__':
+    print(f"GRIDWORLD-SOLVER USING f{N_SARSA_STEPS}-STEP SARSA.")
+    print("The Grid shows the agend (yellow), the walkable states (turquoise)",\
+          "the blocked states (purple) and the goal state (blue).", \
+          "The arrows symbolize the ordering of the q-values for a specific state")
     print("Always press [ENTER] to proceed.")
     # intialize world
     world = GridWorld(WIDTH, HEIGHT, proportion_negative=0.6)
@@ -39,16 +43,14 @@ if __name__ == '__main__':
             # take action
             pos, reward, terminal = world.step(pos, action)
             # visualize
-            if True:
-                world.visualization_step(pos)
+            world.visualization_step(pos)
+            # stop search if MAX_STEPS or a terminal state was reached
             if terminal or step > MAX_STEPS:
                 if terminal:
                     terminal = False
                     input("REACHED TERMINAL")
                     time.sleep(1.5)
                 break
-
-            #world.check_world_legal()
-            input("Next Step")
+            input("Next Step [ENTER]")
             # increment counter
             step += 1

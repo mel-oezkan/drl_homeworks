@@ -20,6 +20,7 @@ class Agent:
 
 
     def update_q(self, base_pos, base_action, td_est):
+        """Update the q-value at base_pos-base_action based on the td_estimate"""
         self.q_table[
             base_pos[0],
             base_pos[1],
@@ -28,25 +29,26 @@ class Agent:
 
 
     def n_sarsa(self, pos, n_steps, gamma):
-
+        """Apply n_steps-sarsa to provided pos."""
         # remember pos and first action
         base_pos = pos
-
+        # intialize variable td_estimate to sum results up
         td_estimate = 0
         for step in range(n_steps):
-
+            # choose action
             new_action = self.choose_action(pos)
             pos, reward, terminated = self.world.step(pos, new_action)
-
             # add the total reward of n steps
             td_estimate += (gamma ** step) * reward
-          
+            # remeber first action
             if step == 0:
                 base_action = new_action
-
+            # if a terminal state is reached immediately update the q-value
             if terminated:
                 self.update_q(base_pos, base_action, td_estimate)
+                break
         else:
+            # choose action
             last_action = self.choose_action(pos)
             # add q-table estimate to td_estimate
             td_estimate += (gamma ** (step + 1)) * self.q_table[pos[0], pos[1], last_action]

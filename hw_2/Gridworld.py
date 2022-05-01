@@ -1,9 +1,8 @@
 """
 Creates a gridworld where the grid can contain different values
 possible values:
-    - empty tiles: 0 
     - blocked tile: nan
-    - reward: [-10, 10]  
+    - reward: [-1, 10]
 """
 
 import numpy as np
@@ -25,6 +24,7 @@ class GridWorld:
 
 
     def random_pos(self):
+        """Create a random position"""
         return (
             np.random.randint(0, self.height),
             np.random.randint(0, self.width)
@@ -32,6 +32,7 @@ class GridWorld:
 
 
     def create_world(self, proportion_negative):
+        """Create reward matrix."""
         # intialize world
         self.world = np.zeros((self.height, self.width))
         # add goal spot (positive reward)
